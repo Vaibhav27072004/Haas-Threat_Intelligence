@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ## 📌 Project Overview
 
 **Honeypot-as-a-Service (HaaS)** is a **containerized and automated honeypot system** designed to capture, analyze, and provide actionable insights into cyber threats. The system enables organizations to deploy honeypots dynamically, collect attack data, and visualize threat patterns via an interactive web dashboard.
@@ -141,3 +142,6 @@ This project is licensed under the **MIT License**.
 
 
 
+=======
+# Haas-Threat_Intelligence
+>>>>>>> e9ae9166f50177d1e9473081ab41700fe2bd4f9c
