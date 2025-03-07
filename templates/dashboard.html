@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Honeypot Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>Honeypot Attack Dashboard</h1>
+
+    <h2>Attack Logs</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Attacker IP</th>
+                <th>Attack Type</th>
+                <th>Timestamp</th>
+            </tr>
+        </thead>
+        <tbody id="attackTableBody">
+    
+        </tbody>
+    </table>
+
+    <h2>Attack Statistics</h2>
+    <canvas id="attackChart"></canvas>
+
+    <script>
+        async function fetchAttackData() {
+            const response = await fetch('/api/honeypot');
+            const data = await response.json();
+
+            const tableBody = document.getElementById("attackTableBody");
+            tableBody.innerHTML = "";
+            const attackCounts = {};
+
+            data.forEach(event => {
+                const row = `<tr>
+                    <td>${event.id}</td>
+                    <td>${event.attacker_ip}</td>
+                    <td>${event.attack_type}</td>
+                    <td>${event.timestamp}</td>
+                </tr>`;
+                tableBody.innerHTML += row;
+
+                attackCounts[event.attack_type] = (attackCounts[event.attack_type] || 0) + 1;
+            });
+
+            const ctx = document.getElementById('attackChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(attackCounts),
+                    datasets: [{
+                        label: 'Number of Attacks',
+                        data: Object.values(attackCounts),
+                        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 1
+                    }]
+                }
+            });
+        }
+        fetchAttackData();
+    </script>
+</body>
+</html>
